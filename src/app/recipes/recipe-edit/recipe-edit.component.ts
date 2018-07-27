@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { RecipeService } from '../recipes.service';
+import { StorageService } from '../../LocalStorageService';
 import { Recipe } from '../recipe.model';
 
 @Component({
@@ -12,7 +13,7 @@ import { Recipe } from '../recipe.model';
 export class RecipeEditComponent implements OnInit {
    id:number;
    recipe:Recipe;
-  constructor(private localStorage: LocalStorage, private route:ActivatedRoute, private recipeService: RecipeService) { }
+  constructor(private localStorage: LocalStorage, private route:ActivatedRoute, private recipeService: RecipeService, private storageService: StorageService) { }
   ngOnInit() {
     this.route.params.subscribe((params:Params)=>{
       this.id=+params['id'];
@@ -23,9 +24,10 @@ export class RecipeEditComponent implements OnInit {
   }
 
   sync() {
-    this.localStorage.setItem('updatedRecipe', this.recipe).subscribe(() => {
-      window.close();
-    });
+    this.storageService.store('updatedRecipe', this.recipe);
+    window.close();
+    // this.localStorage.setItem('updatedRecipe', this.recipe).subscribe(() => {
+    // });
   }
 
 }
