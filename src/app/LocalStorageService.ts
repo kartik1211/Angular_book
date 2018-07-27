@@ -29,13 +29,11 @@ export class StorageService implements OnDestroy {
 
   public store(key: string, data: any): void {
     localStorage.setItem(key, JSON.stringify(data));
-    // the local application doesn't seem to catch changes to localStorage...
-    this.onSubject.next({ key: key, value: data})
+    this.onSubject.next({ key: key, value: data })
   }
 
   public clear(key) {
     localStorage.removeItem(key);
-    // the local application doesn't seem to catch changes to localStorage...
     this.onSubject.next({ key: key, value: null });
   }
 

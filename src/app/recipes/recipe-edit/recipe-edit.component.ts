@@ -11,23 +11,19 @@ import { Recipe } from '../recipe.model';
   styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit {
-   id:number;
-   recipe:Recipe;
-  constructor(private localStorage: LocalStorage, private route:ActivatedRoute, private recipeService: RecipeService, private storageService: StorageService) { }
+  id: number;
+  recipe: Recipe;
+  constructor(private localStorage: LocalStorage, private route: ActivatedRoute, private recipeService: RecipeService, private storageService: StorageService) { }
   ngOnInit() {
-    this.route.params.subscribe((params:Params)=>{
-      this.id=+params['id'];
-      this.localStorage.removeItem('updatedRecipe').subscribe(() => {
-        this.recipe= this.recipeService.getRecipe(this.id);
-      });
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      this.recipe = this.recipeService.getRecipe(this.id);
     });
   }
 
   sync() {
     this.storageService.store('updatedRecipe', this.recipe);
     window.close();
-    // this.localStorage.setItem('updatedRecipe', this.recipe).subscribe(() => {
-    // });
   }
 
 }

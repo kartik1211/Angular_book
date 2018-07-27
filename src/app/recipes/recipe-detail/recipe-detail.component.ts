@@ -11,28 +11,22 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
   styleUrls: ['./recipe-detail.component.css']
 })
 export class RecipeDetailComponent implements OnInit {
-  id:number;
-  recipe:Recipe; 
-  constructor(private localStorage: LocalStorage, private recipeService:RecipeService, private activatedRoute:ActivatedRoute,
-    private router:Router, private storageService: StorageService) { }
-  onAddIngrediants(){
+  id: number;
+  recipe: Recipe;
+  constructor(private localStorage: LocalStorage, private recipeService: RecipeService, private activatedRoute: ActivatedRoute,
+    private router: Router, private storageService: StorageService) { }
+  onAddIngrediants() {
     this.recipeService.addIngridientsToShoppingList(this.recipe.ingredients);
   }
   ngOnInit() {
-    const id=this.activatedRoute.params.subscribe((params:Params)=>{
-      this.id=+params['id'];
-     this.recipe= this.recipeService.getRecipe(this.id);
+    const id = this.activatedRoute.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      this.recipe = this.recipeService.getRecipe(this.id);
     });
 
     this.storageService.changes.subscribe(res => {
       this.recipe = res.value;
     })
   }
-
-  // syncRecipe() {
-  //   this.localStorage.getItem<Recipe>('updatedRecipe').subscribe((updatedRecipe) => {
-  //     this.recipe = updatedRecipe;
-  //   });
-  // }
 
 }
