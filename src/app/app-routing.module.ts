@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
+import { LocalStorageModule } from '@ngx-pwa/local-storage';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
@@ -9,6 +10,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 
 @NgModule({
 imports:[
+    LocalStorageModule,
     RouterModule.forRoot(
         [
           
@@ -19,7 +21,6 @@ imports:[
                 {path:':id/edit',component: RecipeEditComponent}
             ]},
             {path:'shopping-list',component:ShoppingListComponent },
-
             {path:'',redirectTo:'/recipes',pathMatch:'full' }
         ]
     )

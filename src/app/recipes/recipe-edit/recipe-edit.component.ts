@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { LocalStorage } from '@ngx-pwa/local-storage';
+import { RecipeService } from '../recipes.service';
+import { Recipe } from '../recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -7,17 +10,21 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit {
-
    id:number;
-   editMode=false;
-
-  constructor(private route:ActivatedRoute) { }
-
+   recipe:Recipe;
+  constructor(private localStorage: LocalStorage, private route:ActivatedRoute, private recipeService: RecipeService) { }
   ngOnInit() {
     this.route.params.subscribe((params:Params)=>{
       this.id=+params['id'];
-      this.editMode = params['id'] != null;
-      console.log(this.editMode);
+      this.localStorage.removeItem('updatedRecipe').subscribe(() => {
+        this.recipe= this.recipeService.getRecipe(this.id);
+      });
+    });
+  }
+
+  sync() {
+    this.localStorage.setItem('updatedRecipe', this.recipe).subscribe(() => {
+      window.close();
     });
   }
 

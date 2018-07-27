@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipes.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class RecipeDetailComponent implements OnInit {
   id:number;
   recipe:Recipe; 
-  constructor(private recipeService:RecipeService, private activatedRoute:ActivatedRoute,
+  constructor(private localStorage: LocalStorage, private recipeService:RecipeService, private activatedRoute:ActivatedRoute,
     private router:Router) { }
   onAddIngrediants(){
     this.recipeService.addIngridientsToShoppingList(this.recipe.ingredients);
@@ -23,10 +24,10 @@ export class RecipeDetailComponent implements OnInit {
     });
   }
 
-  onEditRecipe(){
-    // this.router.navigate(['../',this.id,'edit'],{relativeTo:this.activatedRoute});
- 
-    this.router.navigate(['edit'],{relativeTo:this.activatedRoute});
+  syncRecipe() {
+    this.localStorage.getItem<Recipe>('updatedRecipe').subscribe((updatedRecipe) => {
+      this.recipe = updatedRecipe;
+    });
   }
 
 }

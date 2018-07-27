@@ -1,3 +1,13 @@
-<p>
-  recipe-edit works!
-</p>
+<div class="row">
+  <div class="col-xs-12">
+    <h1>Update {{recipe.name}}</h1>
+  </div>
+</div>
+
+<ul class="list-group" *ngIf="recipe != null">
+  <li class="list-group-item" *ngFor="let ingridient of recipe.ingredients">
+    {{ingridient.name}}
+    <input [(ngModel)]="ingridient.amount" />
+  </li>
+</ul>
+<button type='button' class="btn btn-primary" (click)='sync()'>Submit</button>
